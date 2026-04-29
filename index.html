@@ -66,6 +66,7 @@
         
         .heart-container {
             position: relative;
+            z-index: 10;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -81,6 +82,7 @@
             box-shadow: 0 0 50px rgba(231, 76, 60, 0.8);
             animation: pulse 2s infinite;
             transition: all 0.3s;
+            z-index: 1;
         }
         
         .heart:hover {
@@ -125,7 +127,7 @@
             font-size: 1.3rem;
             font-weight: bold;
             text-align: center;
-            z-index: 100;
+            z-index: 2;
             text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
             pointer-events: none;
             white-space: nowrap;
@@ -695,6 +697,7 @@
             }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <!-- 背景飘动爱心 -->
@@ -888,7 +891,7 @@
         '这像是我个人的心事',
         '同时我也觉得',
         '这种不务实的事情',
-        '最多了就显得多余了。'
+        '最多了就显得多余了。',
         '你要是说为啥是295嘞',
         '因为陈字在九宫是295',
         '至于为啥要用九宫格嘛',
