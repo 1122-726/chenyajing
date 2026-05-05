@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生日...</title>
+    <title>生日快乐</title>
     <style>
         * {
             margin: 0;
@@ -12,9 +12,9 @@
         }
         
         body {
-            background: linear-gradient(45deg, #1a1a1a, #2a1f1f, #1f1a1a, #1a1a1a);
+            background: linear-gradient(45deg, #000000, #1a1a2e, #16213e, #0f3460);
             background-size: 400% 400%;
-            animation: gradientShift 20s ease infinite;
+            animation: gradientShift 15s ease infinite;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -30,26 +30,29 @@
             100% { background-position: 0% 50%; }
         }
         
-        .floating-ash {
+        /* 背景飘动的小爱心 */
+        .floating-heart {
             position: fixed;
-            animation: float 12s infinite ease-in-out;
+            color: rgba(231, 76, 60, 0.2);
+            animation: float 8s infinite ease-in-out;
             pointer-events: none;
             z-index: 0;
         }
         
         @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg) scale(0.3);
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
                 opacity: 0;
             }
-            10% { opacity: 0.7; }
-            90% { opacity: 0.3; }
+            10% { opacity: 1; }
+            90% { opacity: 0.5; }
             100% {
-                transform: translateY(-100px) rotate(720deg) scale(0.8);
+                transform: translateY(-100px) rotate(360deg) scale(1.2);
                 opacity: 0;
             }
         }
         
+        /* 主页面容器 */
         .main-page {
             position: relative;
             display: flex;
@@ -63,20 +66,34 @@
         
         .heart-container {
             position: relative;
+            z-index: 10;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
         }
         
         .heart {
             position: relative;
             width: 200px;
             height: 200px;
-            background-color: #4a1515;
+            background-color: #e74c3c;
             transform: rotate(-45deg);
-            box-shadow: 0 0 40px rgba(60, 10, 10, 0.5);
-            z-index: 2;
+            cursor: pointer;
+            box-shadow: 0 0 50px rgba(231, 76, 60, 0.8);
+            animation: pulse 2s infinite;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+        
+        .heart:hover {
+            box-shadow: 0 0 80px rgba(231, 76, 60, 1);
+            filter: brightness(1.2);
+        }
+        
+        @keyframes pulse {
+            0% { transform: rotate(-45deg) scale(1); }
+            50% { transform: rotate(-45deg) scale(1.1); }
+            100% { transform: rotate(-45deg) scale(1); }
         }
         
         .heart:before,
@@ -85,8 +102,9 @@
             position: absolute;
             width: 200px;
             height: 200px;
-            background-color: #4a1515;
+            background-color: #e74c3c;
             border-radius: 50%;
+            box-shadow: 0 0 50px rgba(231, 76, 60, 0.8);
         }
         
         .heart:before {
@@ -99,45 +117,556 @@
             left: 100px;
         }
         
-        /* 纸屑地面容器 */
-        .confetti-ground {
-            position: relative;
-            width: 500px;
-            height: 120px;
-            margin-top: -30px;
-            z-index: 1;
-            overflow: visible;
+        /* 文字在爱心中间 - 水平显示 */
+        .heart-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            z-index: 2;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            white-space: nowrap;
         }
         
-        /* 单个纸屑 */
-        .confetti-piece {
+        /* 祝福语 */
+        .blessing {
+            position: fixed;
+            color: #ffeb3b;
+            font-size: 1.2em;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 1000;
+            text-shadow: 
+                0 0 10px rgba(255, 235, 59, 0.8),
+                0 0 20px rgba(255, 215, 0, 0.6);
+            animation: floatAway 3s ease-out forwards;
+            white-space: nowrap;
+        }
+        
+        .blessing.special {
+            color: #ff69b4;
+            font-size: 1.5em;
+            text-shadow: 
+                0 0 10px rgba(255, 105, 180, 0.8),
+                0 0 30px rgba(255, 105, 180, 0.6),
+                0 0 50px rgba(255, 105, 180, 0.4);
+        }
+        
+        .blessing.birthday {
+            color: #ff6b9d;
+            font-size: 2em;
+            text-shadow: 
+                0 0 10px rgba(255, 107, 157, 0.8),
+                0 0 30px rgba(255, 107, 157, 0.6),
+                0 0 50px rgba(255, 107, 157, 0.4),
+                0 0 80px rgba(255, 107, 157, 0.2);
+            animation: birthdayFloat 4s ease-out forwards;
+        }
+        
+        @keyframes floatAway {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -250px) scale(0.8);
+            }
+        }
+        
+        @keyframes birthdayFloat {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.3) rotate(-10deg);
+            }
+            25% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.3) rotate(5deg);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -100%) scale(1.1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -400px) scale(0.9) rotate(10deg);
+            }
+        }
+        
+        /* 蛋糕 */
+        .cake {
+            position: fixed;
+            font-size: 4em;
+            pointer-events: none;
+            z-index: 1001;
+            animation: cakeAppear 3s ease-out forwards;
+            filter: drop-shadow(0 0 20px rgba(255, 182, 193, 0.8));
+        }
+        
+        @keyframes cakeAppear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+            }
+            30% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2) rotate(10deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -200px) scale(0.8) rotate(0deg);
+            }
+        }
+        
+        /* 烟花 */
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 998;
+            animation: fireworkExplode 1.5s ease-out forwards;
+        }
+        
+        @keyframes fireworkExplode {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* 粒子 */
+        .particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            animation: particleExplode 1s ease-out forwards;
+        }
+        
+        @keyframes particleExplode {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+        
+        /* 波纹 */
+        .ripple {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%) scale(0);
+            animation: rippleEffect 0.6s ease-out;
+            pointer-events: none;
+            z-index: 998;
+        }
+        
+        @keyframes rippleEffect {
+            to {
+                transform: translate(-50%, -50%) scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* 彩带 */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 997;
+            animation: confettiFall 3s ease-out forwards;
+        }
+        
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) rotate(720deg) scale(0.5);
+            }
+        }
+        
+        /* 闪光 */
+        .flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+            z-index: 2000;
+            animation: flashEffect 0.5s ease-out forwards;
+        }
+        
+        @keyframes flashEffect {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        /* 计数器 */
+        .counter {
+            position: fixed;
+            bottom: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+            z-index: 100;
+        }
+        
+        .counter span {
+            color: #e74c3c;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        /* ========== 信封相关样式 ========== */
+        
+        /* 信封滑动动画 */
+        .envelope-wrapper {
+            position: fixed;
+            bottom: 15%;
+            left: -200px;
+            z-index: 3000;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.3);
+            animation: envelopeSlide 3s ease-out forwards;
+        }
+        
+        @keyframes envelopeSlide {
+            0% {
+                left: -200px;
+                opacity: 0;
+                transform: scale(0.3) rotate(-10deg);
+            }
+            100% {
+                left: 50%;
+                opacity: 1;
+                transform: translateX(-50%) scale(1) rotate(0deg);
+            }
+        }
+        
+        /* 信封主体 */
+        .envelope {
+            width: 180px;
+            height: 120px;
+            background: #f5f5dc;
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.3),
+                0 0 0 1px rgba(0,0,0,0.1);
+        }
+        
+        /* 信封翻盖 */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #ebe6d0;
+            clip-path: polygon(0 0, 50% 100%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.6s;
+            z-index: 2;
+        }
+        
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+        }
+        
+        /* 信封底部 */
+        .envelope-bottom {
             position: absolute;
             bottom: 0;
-            border-radius: 1px;
-            opacity: 0.85;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: #e8e3cd;
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+            z-index: 1;
         }
         
-        /* 米白色纸屑 */
-        .confetti-cream {
-            background-color: #f5f0e8;
+        /* 爱心封口 */
+        .heart-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            z-index: 3;
         }
         
-        /* 红色纸屑 */
-        .confetti-red {
-            background-color: #8b1a1a;
+        .heart-seal::before {
+            content: '❤️';
+            font-size: 24px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
         
-        /* 纸屑形状变体 */
-        .shape-rect {
-            border-radius: 1px;
+        /* ========== 信纸展开动画 ========== */
+        
+        /* 信纸覆盖层 - 全屏背景变暗 */
+        .letter-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 4000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
         
-        .shape-circle {
-            border-radius: 50%;
+        .letter-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
         }
         
-        .shape-oval {
-            border-radius: 50% 30%;
+        /* 信纸主体 - 自适应高度 */
+        .letter-paper {
+            width: 0;
+            height: 0;
+            background: #fffef0;
+            border-radius: 5px;
+            position: relative;
+            transform-origin: center bottom;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-height: 90vh;
+        }
+        
+        .letter-paper.expanded {
+            width: 80vw;
+            max-width: 600px;
+            height: auto;
+            max-height: 90vh;
+        }
+        
+        /* 信纸内容区域 - 可滚动 */
+        .letter-content-area {
+            width: 100%;
+            max-height: 90vh;
+            padding: 40px 30px;
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.5s 0.3s;
+            overflow-y: auto;
+        }
+        
+        .letter-paper.expanded .letter-content-area {
+            opacity: 1;
+        }
+        
+        /* 横格线背景 - 动态高度 */
+        .lined-paper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 39px,
+                #e0e0e0 39px,
+                #e0e0e0 40px
+            );
+            background-position: 0 50px;
+        }
+        
+        /* 左边红色竖线 */
+        .red-margin {
+            position: absolute;
+            top: 0;
+            left: 40px;
+            width: 1px;
+            height: 100%;
+            background: #ff9999;
+        }
+        
+        /* 文字区域 */
+        .text-area {
+            position: relative;
+            z-index: 10;
+            padding-left: 30px;
+            padding-top: 10px;
+            padding-bottom: 60px;
+        }
+        
+        .text-line {
+            height: 40px;
+            line-height: 40px;
+            font-size: 1.3em;
+            color: #333;
+            font-family: 'KaiTi', 'STKaiti', 'Microsoft YaHei', serif;
+            position: relative;
+        }
+        
+        .text-line.empty {
+            color: transparent;
+        }
+        
+        /* 已阅按钮 */
+        .read-btn {
+            position: sticky;
+            bottom: 0;
+            float: right;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+            z-index: 20;
+            margin-top: 20px;
+        }
+        
+        .read-btn:hover {
+            background: #357abd;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.6);
+        }
+        
+        /* ========== 右侧已读信封标签 ========== */
+        
+        .read-envelopes-container {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 60px;
+            height: 100vh;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding-top: 20px;
+            gap: 10px;
+            pointer-events: none;
+        }
+        
+        .read-envelope-tag {
+            width: 80px;
+            height: 50px;
+            background: #f5f5dc;
+            border-radius: 8px 0 0 8px;
+            position: relative;
+            cursor: pointer;
+            pointer-events: auto;
+            transform: translateX(45px);
+            transition: all 0.3s;
+            box-shadow: -3px 3px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 8px;
+            font-size: 0.7em;
+            color: #666;
+            font-weight: bold;
+        }
+        
+        .read-envelope-tag:hover {
+            transform: translateX(20px);
+        }
+        
+        .read-envelope-tag .tag-heart {
+            font-size: 1.2em;
+            margin-right: 4px;
+        }
+        
+        .read-envelope-tag .tag-num {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 0.8em;
+        }
+        
+        /* 信封标签颜色区分 */
+        .read-envelope-tag.tag-52 {
+            background: #ffe4e1;
+            border-left: 3px solid #ff69b4;
+        }
+        
+        .read-envelope-tag.tag-295 {
+            background: #ffe4e1;
+            border-left: 3px solid #ff1493;
+        }
+        
+        .read-envelope-tag.tag-520 {
+            background: #ffe4e1;
+            border-left: 3px solid #ff006e;
+        }
+        
+        .read-envelope-tag.tag-1314 {
+            background: #ffe4e1;
+            border-left: 3px solid #c71585;
+        }
+        
+        /* 信封页面覆盖层 */
+        .envelope-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2500;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .envelope-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* 隐藏主页面 */
+        .main-page.hidden {
+            opacity: 0.3;
+            pointer-events: none;
+            transition: opacity 0.3s;
         }
         
         @media (max-width: 768px) {
@@ -147,89 +676,740 @@
             }
             .heart:before { top: -75px; }
             .heart:after { left: 75px; }
-            
-            .confetti-ground {
-                width: 350px;
-                height: 90px;
-                margin-top: -20px;
+            .heart-content { font-size: 1rem; }
+            .envelope {
+                width: 140px;
+                height: 100px;
+            }
+            .letter-paper.expanded {
+                width: 90vw;
+            }
+            .text-line {
+                font-size: 1.1em;
+            }
+            .letter-content-area {
+                padding: 30px 20px;
+            }
+            .read-envelope-tag {
+                width: 60px;
+                height: 40px;
+                transform: translateX(35px);
             }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
-    <div id="floating-ashes"></div>
+    <!-- 背景飘动爱心 -->
+    <div id="floating-hearts"></div>
     
-    <div class="main-page">
+    <!-- 右侧已读信封标签容器 -->
+    <div class="read-envelopes-container" id="readEnvelopesContainer"></div>
+    
+    <!-- 主页面 -->
+    <div class="main-page" id="mainPage">
         <div class="heart-container">
-            <div class="heart"></div>
-            <!-- 纸屑地面 -->
-            <div class="confetti-ground" id="confettiGround"></div>
+            <div class="heart" id="heart">
+                <div class="heart-content">小陈最美了</div>
+            </div>
+        </div>
+        <div class="counter">已点击 <span id="count">0</span> 次</div>
+    </div>
+    
+    <!-- 信封覆盖层 -->
+    <div class="envelope-overlay" id="envelopeOverlay"></div>
+    
+    <!-- 信封容器（动态生成） -->
+    <div id="envelopeContainer"></div>
+    
+    <!-- 信纸覆盖层（动态显示） -->
+    <div class="letter-overlay" id="letterOverlay">
+        <div class="letter-paper" id="letterPaper">
+            <div class="letter-content-area">
+                <div class="lined-paper"></div>
+                <div class="red-margin"></div>
+                <div class="text-area" id="textArea">
+                    <!-- 动态生成文字行 -->
+                </div>
+                <button class="read-btn" id="readBtn">已阅</button>
+            </div>
         </div>
     </div>
     
     <script>
-        function createFloatingAshes() {
-            const symbols = ['✦', '✧', '•', '◆', '◇', '·'];
-            for (let i = 0; i < 20; i++) {
-                const ash = document.createElement('div');
-                ash.className = 'floating-ash';
-                ash.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
-                ash.style.left = Math.random() * 100 + '%';
-                ash.style.fontSize = (10 + Math.random() * 24) + 'px';
-                ash.style.animationDelay = Math.random() * 12 + 's';
-                ash.style.animationDuration = (10 + Math.random() * 8) + 's';
-                ash.style.color = `rgba(${80 + Math.random() * 60}, ${50 + Math.random() * 40}, ${50 + Math.random() * 40}, ${0.2 + Math.random() * 0.4})`;
-                document.body.appendChild(ash);
+        // 创建背景飘动爱心
+        function createFloatingHearts() {
+            for (let i = 0; i < 12; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.fontSize = (15 + Math.random() * 35) + 'px';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.animationDuration = (6 + Math.random() * 6) + 's';
+                document.body.appendChild(heart);
+            }
+        }
+        createFloatingHearts();
+        
+        const heart = document.getElementById('heart');
+        const countEl = document.getElementById('count');
+        const mainPage = document.getElementById('mainPage');
+        const envelopeOverlay = document.getElementById('envelopeOverlay');
+        const envelopeContainer = document.getElementById('envelopeContainer');
+        const letterOverlay = document.getElementById('letterOverlay');
+        const letterPaper = document.getElementById('letterPaper');
+        const textArea = document.getElementById('textArea');
+        const readBtn = document.getElementById('readBtn');
+        const readEnvelopesContainer = document.getElementById('readEnvelopesContainer');
+        
+        // 刷新归零
+        let count = 0;
+        
+        // 已读信封记录
+        let readEnvelopes = [];
+        
+        const blessings = [
+            '小陈最美！', '永远年轻！', '天天开心！', '心想事成！',
+            '笑口常开！', '美丽动人！', '青春永驻！', '幸福安康！',
+            '吉祥如意！', '万事顺意！', '好运连连！', '甜甜蜜蜜！'
+        ];
+        
+        // ========== 四封信的内容配置 ==========
+        
+        // 第52封信
+        const letter52 = {
+    title: '第52次',
+    lines: [
+        '亲爱的：',
+        '',
+        '生日快乐呀！',
+        '这算是个小彩蛋吧',
+        '算不上什么贺卡',
+        '就不写得那么慎重了哈',
+        '当作一次普通的扯谈吧',
+        '嘿嘿',
+        '希望你生活过得顺利呀',
+        '',
+        '大学与其之后的时间里',
+        '人们终要各奔东西',
+        '但不论如何',
+        '依旧是那句话：',
+        '只要心里有对方',
+        '那距离就不是问题',
+        '',
+        '至于未来嘛...',
+        '我不想去思考未来这种东西',
+        '通常意味着离别',
+        '感觉好像有点幼稚了',
+        '',
+        '那就讲之前的事？',
+        '但我又觉得这并不是很妥当',
+        '在与你分开之后的时间里',
+        '并没有发生足以改变',
+        '我人生轨迹的事',
+        '但我现在得以知道',
+        '那段时间除了你没人能影响我',
+        '',
+        '并且相当长一段时间里',
+        '我的心空了一块',
+        '至于后面的经历暂且按下不表',
+        '不过是些不堪入目的往事了',
+        '',
+        '而现在的话',
+        '我从未感觉时间过得如此之快',
+        '喊叫仿佛就在昨天',
+        '而如今却又步入第十周了',
+        '',
+        '讲了些有的没的',
+        '希望你不会为此感到反感吧。'
+        ]
+    };
+        
+        // 第295封信
+        const letter295 = {
+    title: '陈',
+    lines: [
+        '彩蛋！！！嘿嘿',
+        '还有一篇',
+        '想不到吧',
+        '不过你肯定想到了',
+        '',
+        '还是祝你生日快乐喔',
+        '',
+        '前面那篇写了点杂七杂八的',
+        '也是希望你不要太反感吧',
+        '',
+        '人之间总是很少有',
+        '内心的交流的',
+        '虽说内心也不见得',
+        '是非得去交流吧',
+        '',
+        '也许只是我认为如此',
+        '但日常生活中我也的确',
+        '很少看到人与人之间的',
+        '促膝长谈',
+        '',
+        '我总想同你说些什么',
+        '但又总有些什么阻碍着我',
+        '',
+        '慢慢的，不只是与你',
+        '也不只是我',
+        '人与人之间关系越来越远',
+        '',
+        '但是吧',
+        '我要讲但是了',
+        '',
+        '因为人的思想不能同步',
+        '所以即使在我长篇大论之后',
+        '我也没法清楚你的想法',
+        '这很可恶，也很可悲',
+        '',
+        '又在自顾自的说起来了',
+        '其实后面还有几封信',
+        '',
+        '但这需要你重复着',
+        '这种无聊的动作几分钟',
+        '甚至更久',
+        '',
+        '太过于追求目的',
+        '反而忽视了你的感受',
+        '这不是我想要的',
+        '',
+        '不过后面的信件我还是会留下来',
+        '你若是不愿花这么长的时间',
+        '也可以来找我看写的啥',
+        '',
+        '写到这里我忽然觉得',
+        '我好像只是做了一件',
+        '自己看起来很惊喜',
+        '感动自己的事件',
+        '',
+        '也许并非你想要的惊喜',
+        '或者说那种仪式感',
+        '',
+        '这像是我个人的心事',
+        '同时我也觉得',
+        '这种不务实的事情',
+        '最多了就显得多余了。',
+        '你要是说为啥是295嘞',
+        '因为陈字在九宫是295',
+        '至于为啥要用九宫格嘛',
+        '也算是缅怀过去班机那段时间',
+        '我能熟练用九宫格',
+        '也多亏了那段时间',
+        '说起来又忍不住怀念过去',
+        '要我说',
+        '别对“怀念”太敏感',
+        '不是说活在过去出不来',
+        '偶尔回忆一下',
+        '还是问题不大咯'
+    ]
+};
+        
+        // 第520封信
+        const letter520 = {
+            title: '第520次',
+            lines: [
+         '第五百二十次了呀',
+        '？！强强！？',
+        '讲真的写到这里',
+        '我已经不知道写些什么好了',
+        '我也不清楚你想听什么',
+        '尽是讲从前的事',
+        '反倒显得矫情',
+        '但是讲我现在的事',
+        '也没什么可说的',
+        '不过好歹是第520次了',
+        '总想说些奇奇怪怪',
+        '可可爱爱的话',
+        '但是话到嘴边',
+        '又羞于启齿',
+        '这可真是难办',
+        '不过过去不说',
+        '未来不说',
+        '可以讲些在一起的规划',
+        '比如你什么时候有空呢',
+        '与其这么说',
+        '不如换个说法',
+        '我什么时候可以',
+        '去你那边逛一下吗',
+        '嘿嘿',
+        '虽然但是吧',
+        '比起安排好一切',
+        '不如提前规划一个目标',
+        '这样至少知道该怎么做了',
+        '是吧是吧',
+        '唔',
+        '我在说什么',
+        '好奇怪',
+        '说是去你那边玩吧',
+        '我也不知道玩些啥',
+        '大多逛逛商场',
+        '吃吃零食啥的咯',
+        '不过休闲一点也好',
+        '就是时间过得太快了',
+        '（依旧感慨时间）',
+        '欸嘿',
+        '写五百二十个字怎么样',
+        '不过当然是算上标点咯',
+        '写着写着',
+        '有些回到过去的感觉了',
+        '人就是这么的奇妙',
+        '（总感觉说过这句话）',
+        '不过无伤大雅',
+        '浑浑噩噩的人',
+        '忙忙碌碌的人',
+        '奋发图强的人',
+        '不管什么样的人',
+        '经过了相同的时间',
+        '一起走到了现在',
+        '至少时间',
+        '对所有人来说都是公平的',
+        '你在干啥呀',
+        '也不知道你是啥样的心态',
+        '点开的这个网站',
+        '或者索然无味',
+        '或者略显惊讶',
+        '不过的确',
+        '就我个人而言',
+        '差不多是我能做的最好的了',
+        '如果你想要啥物质上的礼物',
+        '可以跟我说喔'
+            ]
+        };
+        
+        // 第1314封信
+        const letter1314 = {
+    title: 'the last',
+    lines: [
+        '那我就尽情说一些什么了',
+        '虽然我现在还不知道',
+        '说些什么',
+        '虽然说出来不是那么负责',
+        '但是我觉得能在这种',
+        '不知道你能不能看到',
+        '情况下更是能说点什么',
+        '',
+        '我也不知道对你是',
+        '一种什么样的感情了',
+        '也许不是像对恋人那样',
+        '更像是把你当作一个',
+        '知根知底的亲人',
+        '也许这是不对的吧',
+        '但是我仿佛没办法',
+        '控制自己的感情',
+        '',
+        '所以现在这样就很像是',
+        '在发牢骚',
+        '或者说我是一个很不值得',
+        '的人',
+        '',
+        '不过话说我当然心里',
+        '是有你的',
+        '你依旧是那么重要',
+        '但不再是作为一个恋人',
+        '来说了',
+        '就像上面说的',
+        '你更像是我不能离开的',
+        '一部分',
+        '',
+        '这么说来',
+        '我是从什么时候开始了',
+        '这种转变呢',
+        '哈哈，我也不是很明了',
+        '可能是跟你分开之后',
+        '我又想了很多',
+        '这导致我的心境',
+        '发生了些许变化',
+        '',
+        '我不能说我们这段感情',
+        '从开始就是错的',
+        '只是说接触的越深',
+        '就越是有那种',
+        '我刚才得知你没法看到',
+        '这里的内容',
+        '不过我也想试着自己',
+        '展示出自己的内心',
+        '不适合的感觉',
+        '',
+        '虽然现在说起来不是',
+        '那么负责任了吧',
+        '',
+        '我觉得我没什么变化',
+        '至少心境上是这样的',
+        '我还是那么贪玩',
+        '这并不是我不爱学习',
+        '的理由',
+        '我还是那么天真',
+        '也许我对待人的态度',
+        '多少跟以前不一样了',
+        '但即使是这样我也觉得',
+        '我依然没有什么实质',
+        '上的改变',
+        '',
+        '或者换一种说法',
+        '能陪我一起疯狂的人',
+        '已经找不到了',
+        '找不到了',
+        '听起来是多么凄凉',
+        '不过我倒觉得还好',
+        '这也许是年龄增长后',
+        '的必然阶段吧',
+        '',
+        '或者说因为有过那段',
+        '时期',
+        '所以导致现在看起来',
+        '稍显落寞',
+        '',
+        '又在讲我自己的事了',
+        '但是关于你',
+        '我不知道',
+        '我还有几分了解你',
+        '这是时间留下的隔阂',
+        '让距离变得越来越远',
+        '我真的也不明白',
+        '我自己的想法',
+        '离开你是万万不可的',
+        '但跟你在一起过得自在',
+        '也需要花上一番功夫',
+        '虽然说是矛盾吧',
+        '我想让你过得更好',
+        '哪怕只是看着你',
+        '我应该也是心满意足的',
+        '虽然说起来感觉很奇怪',
+        '不过应该也八九不离十了',
+        '',
+        '另外',
+        '我也不是一个好人',
+        '哪个方面都是',
+        '我觉得跟你说不出心里话',
+        '有很大一方面是害怕',
+        '真的害怕',
+        '害怕离开',
+        '这句话老早之前',
+        '就同你讨论过',
+        '但我觉得现在依然如此',
+        '即使就算是我自己',
+        '也不见得能够接受',
+        '所以说在一起是',
+        '相互变得更好',
+        '但我就是狗改不了吃屎',
+        '也许还能改变些许',
+        '但这不足以配得上你',
+        '不过不论如何',
+        '我还是希望你开心快乐',
+        '',
+        '也许说的很坦然吧',
+        '内心是怎么想的呢',
+        '可能又是另一回事',
+        '我以前就差不多是这样吧',
+        '在一些你可能看不到的地方',
+        '讲些神经兮兮的话',
+        '心里话说出来总是很奇怪',
+        '仿佛被听见了之后',
+        '就不算心里话了',
+        '这也就是为什么',
+        '在一些你可能看到',
+        '可能看不到的地方',
+        '大肆展露内心了',
+        '因为这样我可以骗自己',
+        '你看不见',
+        '因为这样我就可以当做',
+        '有人有所了解'
+    ]
+};
+            
+        
+        // 信件集合
+        const letters = {
+            52: letter52,
+            295: letter295,
+            520: letter520,
+            1314: letter1314
+        };
+        
+        // 当前信件
+        let currentLetterType = null;
+        
+        // 信封触发次数
+        const envelopeTriggers = [52, 295, 520, 1314];
+        
+        // 创建粒子
+        function createParticles(x, y, isSpecial, isBirthday) {
+            let colors;
+            if (isBirthday) {
+                colors = ['#ff6b9d', '#ffd93d', '#6bcf7f', '#4d96ff', '#ff8fab', '#c77dff', '#ff006e'];
+            } else if (isSpecial) {
+                colors = ['#ff69b4', '#ff1493', '#ffb6c1', '#ffc0cb', '#ffeb3b', '#fff'];
+            } else {
+                colors = ['#ffeb3b', '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#e91e63'];
+            }
+            const particleCount = isBirthday ? 20 : 10;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const angle = (Math.PI * 2 / particleCount) * i;
+                const dist = 60 + Math.random() * (isBirthday ? 120 : 80);
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+                p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                p.style.background = colors[Math.floor(Math.random() * colors.length)];
+                p.style.width = (isBirthday ? 8 : 6) + Math.random() * (isBirthday ? 10 : 8) + 'px';
+                p.style.height = p.style.width;
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
             }
         }
         
-        // 创建一地纸屑
-        function createConfettiGround() {
-            const ground = document.getElementById('confettiGround');
-            const totalPieces = 150; // 纸屑总数
+        // 创建波纹
+        function createRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.width = '80px';
+            ripple.style.height = '80px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
+        
+        // 创建祝福语
+        function createBlessing(x, y, text, type) {
+            const b = document.createElement('div');
+            if (type === 'birthday') {
+                b.className = 'blessing birthday';
+            } else if (type === 'special') {
+                b.className = 'blessing special';
+            } else {
+                b.className = 'blessing';
+            }
+            b.textContent = text;
+            const offsetX = (Math.random() - 0.5) * 100;
+            const offsetY = (Math.random() - 0.5) * 50;
+            b.style.left = (x + offsetX) + 'px';
+            b.style.top = (y + offsetY) + 'px';
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), type === 'birthday' ? 4000 : 3000);
+        }
+        
+        // 创建蛋糕
+        function createCake(x, y) {
+            const cake = document.createElement('div');
+            cake.className = 'cake';
+            cake.textContent = '🎂';
+            cake.style.left = x + 'px';
+            cake.style.top = y + 'px';
+            document.body.appendChild(cake);
+            setTimeout(() => cake.remove(), 3000);
+        }
+        
+        // 创建烟花
+        function createFireworks(x, y) {
+            const colors = ['#ff6b9d', '#ffd93d', '#6bcf7f', '#4d96ff', '#ff006e', '#c77dff'];
+            for (let i = 0; i < 30; i++) {
+                const fw = document.createElement('div');
+                fw.className = 'firework';
+                const angle = (Math.PI * 2 / 30) * i;
+                const dist = 100 + Math.random() * 150;
+                fw.style.left = x + 'px';
+                fw.style.top = y + 'px';
+                fw.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                fw.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                fw.style.background = colors[Math.floor(Math.random() * colors.length)];
+                fw.style.width = (4 + Math.random() * 6) + 'px';
+                fw.style.height = fw.style.width;
+                document.body.appendChild(fw);
+                setTimeout(() => fw.remove(), 1500);
+            }
+        }
+        
+        // 创建彩带
+        function createConfetti(x, y) {
+            const colors = ['#ff6b9d', '#ffd93d', '#6bcf7f', '#4d96ff', '#ff006e', '#c77dff', '#ff8fab'];
+            for (let i = 0; i < 50; i++) {
+                const cf = document.createElement('div');
+                cf.className = 'confetti';
+                const angle = Math.random() * Math.PI * 2;
+                const dist = 200 + Math.random() * 300;
+                cf.style.left = x + 'px';
+                cf.style.top = y + 'px';
+                cf.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                cf.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                cf.style.background = colors[Math.floor(Math.random() * colors.length)];
+                cf.style.width = (8 + Math.random() * 12) + 'px';
+                cf.style.height = (5 + Math.random() * 8) + 'px';
+                cf.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                document.body.appendChild(cf);
+                setTimeout(() => cf.remove(), 3000);
+            }
+        }
+        
+        // 创建闪光
+        function createFlash() {
+            const flash = document.createElement('div');
+            flash.className = 'flash';
+            document.body.appendChild(flash);
+            setTimeout(() => flash.remove(), 500);
+        }
+        
+        // 生成信纸文字行
+        function generateTextLines(lines) {
+            textArea.innerHTML = '';
+            lines.forEach((line, index) => {
+                const div = document.createElement('div');
+                div.className = line.trim() === '' ? 'text-line empty' : 'text-line';
+                div.textContent = line;
+                textArea.appendChild(div);
+            });
+        }
+        
+        // 创建信封
+        function createEnvelope(letterType) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'envelope-wrapper';
+            wrapper.id = 'envelopeWrapper';
             
-            const shapes = ['shape-rect', 'shape-circle', 'shape-oval'];
+            wrapper.innerHTML = `
+                <div class="envelope" id="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="envelope-bottom"></div>
+                    <div class="heart-seal"></div>
+                </div>
+            `;
             
-            for (let i = 0; i < totalPieces; i++) {
-                const piece = document.createElement('div');
-                piece.className = 'confetti-piece';
+            envelopeContainer.appendChild(wrapper);
+            
+            // 信封点击展开信纸
+            wrapper.addEventListener('click', function() {
+                openLetter(letterType);
+            });
+        }
+        
+        // 展开信纸
+        function openLetter(letterType) {
+            const letterData = letters[letterType];
+            if (!letterData) return;
+            
+            currentLetterType = letterType;
+            
+            generateTextLines(letterData.lines);
+            letterOverlay.classList.add('show');
+            
+            // 延迟展开动画
+            setTimeout(() => {
+                letterPaper.classList.add('expanded');
+            }, 100);
+            
+            mainPage.classList.add('hidden');
+        }
+        
+        // 关闭信纸
+        function closeLetter() {
+            letterPaper.classList.remove('expanded');
+            
+            setTimeout(() => {
+                letterOverlay.classList.remove('show');
+                mainPage.classList.remove('hidden');
                 
-                // 9:1 比例，米白色 vs 红色
-                // 90% 米白色，10% 红色
-                const isRed = Math.random() < 0.1;
-                piece.classList.add(isRed ? 'confetti-red' : 'confetti-cream');
-                piece.classList.add(shapes[Math.floor(Math.random() * shapes.length)]);
+                // 移除信封
+                const wrapper = document.getElementById('envelopeWrapper');
+                if (wrapper) {
+                    wrapper.remove();
+                }
                 
-                // 随机大小（小碎片感）
-                const width = 3 + Math.random() * 8;
-                const height = 2 + Math.random() * 6;
-                piece.style.width = width + 'px';
-                piece.style.height = height + 'px';
+                // 添加到已读列表
+                if (currentLetterType && !readEnvelopes.includes(currentLetterType)) {
+                    readEnvelopes.push(currentLetterType);
+                    addReadEnvelopeTag(currentLetterType);
+                }
+            }, 500);
+        }
+        
+        // 添加已读信封标签到右侧
+        function addReadEnvelopeTag(letterType) {
+            const tag = document.createElement('div');
+            tag.className = `read-envelope-tag tag-${letterType}`;
+            tag.innerHTML = `
+                <span class="tag-heart">❤️</span>
+                <span class="tag-num">${letterType}</span>
+            `;
+            
+            // 点击标签重新打开信件
+            tag.addEventListener('click', function() {
+                openLetter(letterType);
+            });
+            
+            readEnvelopesContainer.appendChild(tag);
+        }
+        
+        // 已阅按钮点击
+        readBtn.addEventListener('click', closeLetter);
+        
+        // 主点击事件
+        heart.addEventListener('click', function(e) {
+            const rect = heart.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            count++;
+            countEl.textContent = count;
+            
+            // 判断点击次数
+            const isSpecial = count <= 3;
+            const isBirthday = count === 4;
+            const isEnvelope = envelopeTriggers.includes(count);
+            
+            if (isSpecial) {
+                // 前三次：只显示"小傻逼"，粉色特效
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => createBlessing(centerX, centerY - 50, '小傻逼', 'special'), i * 150);
+                }
+                createParticles(centerX, centerY, true, false);
+            } else if (isBirthday) {
+                // 第四次：生日快乐，超级特效
+                createFlash();
+                createCake(centerX, centerY - 80);
+                createFireworks(centerX, centerY);
+                createConfetti(centerX, centerY);
+                createParticles(centerX, centerY, false, true);
                 
-                // 随机水平位置（集中在中间，形成堆积感）
-                const centerBias = (Math.random() - 0.5) * 0.8; // 偏向中心
-                const leftPos = 50 + centerBias * 80 + (Math.random() - 0.5) * 30;
-                piece.style.left = Math.max(0, Math.min(95, leftPos)) + '%';
-                
-                // 随机垂直位置（底部堆积，有层次感）
-                const bottomPos = Math.random() * 60; // 0-60px的高度范围内
-                piece.style.bottom = bottomPos + 'px';
-                
-                // 随机旋转
-                piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-                
-                // 随机透明度差异，增加层次感
-                piece.style.opacity = 0.5 + Math.random() * 0.4;
-                
-                // 轻微的模糊差异，模拟景深
-                if (Math.random() < 0.3) {
-                    piece.style.filter = `blur(${0.5  + Math.random()}px)`;
-         }
-ground.appendChild(piece);
-                           }
-                 }
-              createFloatingAshes( );
-createConfettiGround( );
-</script>
+                const birthdayTexts = ['🎉 生日快乐！', '🎂 生日快乐！', '✨ 生日快乐！', '🎈 生日快乐！', '🎁 生日快乐！'];
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const b = document.createElement('div');
+                        b.className = 'blessing birthday';
+                        b.textContent = birthdayTexts[i];
+                        const angle = (Math.PI * 2 / 5) * i;
+                        const dist = 80;
+                        b.style.left = (centerX + Math.cos(angle) * dist) + 'px';
+                        b.style.top = (centerY + Math.sin(angle) * dist - 50) + 'px';
+                        document.body.appendChild(b);
+                        setTimeout(() => b.remove(), 4000);
+                    }, i * 200);
+                }
+            } else if (isEnvelope) {
+                // 信封次数：创建信封
+                createEnvelope(count);
+            } else {
+                // 之后：随机祝福语
+                for (let i = 0; i < 3; i++) {
+                    const text = blessings[Math.floor(Math.random() * blessings.length)];
+                    setTimeout(() => createBlessing(centerX, centerY - 50, text, 'normal'), i * 150);
+                }
+                createParticles(centerX, centerY, false, false);
+            }
+            
+            // 波纹
+            createRipple(centerX, centerY);
+            
+            // 心跳加速
+            heart.style.animation = 'pulse 0.4s infinite';
+            setTimeout(() => {
+                heart.style.animation = 'pulse 2s infinite';
+            }, 600);
+        });
+    </script>
 </body>
 </html>
